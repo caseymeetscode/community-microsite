@@ -1,20 +1,41 @@
+let clickSound;
+
+function preload() {
+  console.log("Loading sound...");
+  // RENAME your file to 'click.wav' in your folder first!
+ clickSound = loadSound('assets/click.wav');
+    () => console.log("Sound Loaded!"), 
+    (err) => console.log("Sound Failed:", err)
+  ;
+}
+
 function setup() {
-  // Target the specific container div we created in our HTML
   let canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent('canvas-container');
+  
+  let exploreBtn = select('.btn-primary');
+  if (exploreBtn) {
+    exploreBtn.mousePressed(playSuccessSound);
+  }
+}
+
+function playSuccessSound() {
+  userStartAudio();
+  if (clickSound && clickSound.isLoaded()) {
+    clickSound.play();
+  }
+  background(102, 252, 241); 
 }
 
 function draw() {
-  // A slightly transparent background creates beautiful motion trails
   background(11, 12, 16, 25); 
-  
-  // Custom design logic goes here!
   fill(102, 252, 241);
   noStroke();
+  
+  // This quad is now relative to your mouse
   quad(mouseX, mouseY, 86, 50, 50, 38, 14, 50);
 }
 
-// Crucial for portfolios: Adjust the canvas instantly if the screen sizes change
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
 }
