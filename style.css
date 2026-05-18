@@ -1,4 +1,4 @@
-/* Reset default browser margins and set a dark theme baseline */
+/* 1. Global Reset */
 * {
     margin: 0;
     padding: 0;
@@ -9,25 +9,26 @@
 body, html {
     width: 100%;
     height: 100%;
-    overflow: hidden; /* Prevents awkward scrollbars over your canvas */
+    overflow: hidden; 
     background-color: #0b0c10;
     color: #ffffff;
 }
 
-/* Fix the p5.js container to the background */
+/* 2. The Background Canvas */
 #canvas-container {
-    position: absolute;
+    position: fixed;
     top: 0;
+
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Sits behind the text content */
+    z-index: 0; 
 }
 
-/* Style the content overlay to sit proudly on top */
+/* 3. The Interactive Layer */
 .content-overlay {
     position: relative;
-    z-index: 2; /* Sits completely above the canvas layer */
+    z-index: 1; 
     width: 100%;
     height: 100%;
     display: flex;
@@ -35,23 +36,35 @@ body, html {
     justify-content: center;
     align-items: flex-start;
     padding: 10% 8%;
-    background: linear-gradient(90deg, rgba(11,12,16,0.8) 0%, rgba(11,12,16,0) 100%);
-    pointer-events: none; /* Allows mouse interactions to pass through to the canvas */
+    background: transparent;
+    
+    /* This makes the whole overlay a hologram */
+    pointer-events: none; 
 }
 
-/* Ensure interactive text buttons still work */
-header, .actions {
-    pointer-events: auto;
+/* 4. The Content Blocks */
+/* We keep these as 'none' so the mouse reaches the quad THROUGH the text */
+header, .actions, p, h1 {
+    pointer-events: none;
     max-width: 600px;
 }
+
+/* 5. The Solid Objects (Buttons & Links) */
+/* This is the ONLY stuff we want the mouse to hit */
+.btn-primary, 
+.btn-secondary,
+.actions a,
+button {
+    pointer-events: auto !important; 
+    cursor: pointer;
+}
+
+/* --- UI Styling --- */
 
 .actions {
-    display: flex;       /* Tells the container to use flexible layout */
-    align-items: center; /* Keeps the button and link vertically centered with each other */
-    gap: 25px;           /* This creates a uniform space between the items */
-    
-    pointer-events: auto;
-    max-width: 600px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
 h1 {
@@ -72,12 +85,11 @@ p {
     margin-bottom: 2rem;
 }
 
-/* Clean, modern UI styling */
 .badge {
     text-transform: uppercase;
     font-size: 0.8rem;
     letter-spacing: 0.15em;
-    color: #fd026e; /* Neon accent color */
+    color: #fd026e;
     font-weight: 700;
 }
 
@@ -89,10 +101,11 @@ p {
     border: none;
     border-radius: 4px;
     font-weight: 600;
-    cursor: pointer;
     transition: transform 0.2s ease;
 }
 
 .btn-primary:hover {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
 }
+
+/*Optimized for p5.js interactivity */
